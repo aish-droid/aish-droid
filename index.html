@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to My GitHub Profile</title>
+    <title>Aishwarya Venkat's GitHub Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,13 +14,17 @@
         h1, h2 {
             color: #1e3a8a;
         }
+        .name {
+            font-size: 2.5em;
+            color: #1e3a8a;
+            text-align: center;
+        }
         .shields img {
             margin: 5px;
         }
         .project-card {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
         .card {
@@ -28,9 +32,12 @@
             border: 2px solid #1e3a8a;
             border-radius: 8px;
             padding: 20px;
-            width: 45%;
+            height: 250px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .card:hover {
             transform: translateY(-5px);
@@ -43,6 +50,7 @@
         .card p {
             font-size: 1em;
             color: #666;
+            flex-grow: 1;
         }
         .card ul {
             list-style-type: none;
@@ -71,6 +79,7 @@
 </head>
 <body>
 
+    <div class="name">Aishwarya Venkat</div>
     <h1>Welcome to my GitHub profile!</h1>
     <p>I am a grad student who loves all things economics and data.</p>
 
@@ -99,9 +108,6 @@
             <h3><a href="https://github.com/aish-droid/aish-droid.github.io/blob/gh-pages/Fed%202008%20Transcript%20analysis%20.ipynb">Fed 2008 Transcript Analysis</a></h3>
             <p>Exploratory analysis of Federal Reserve transcripts from 2008, using NLP techniques to uncover insights from the financial crisis discussions.</p>
         </div>
-    </div>
-
-    <div class="project-card">
         <div class="card">
             <h3><a href="https://github.com/aish-droid/aish-droid.github.io/tree/topic_modelling">Topic modelling with reddit on study abroad preferences</a></h3>
             <p>Modelling subreddit data using LDA and sentiment analysis to explore how different countries are viewed as education destinations.</p>
