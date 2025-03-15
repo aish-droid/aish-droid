@@ -4,88 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aishwarya Venkat's GitHub Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Aptos:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Aptos', sans-serif;
-            margin: 20px;
-            background-color: #f0f8ff;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
             color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
         }
         .name {
             font-size: 3em;
             color: #1e3a8a;
-            text-align: center;
             font-weight: 700;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         h1 {
-            font-size: 2.5em;
-            color: #1e3a8a;
+            font-size: 2em;
             font-weight: 600;
-            text-align: center;
             margin-bottom: 10px;
         }
         p {
             font-size: 1.1em;
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        hr {
-            border: none;
-            height: 2px;
-            background-color: #1e3a8a;
-            width: 50%;
-            margin: 20px auto;
+            color: #555;
         }
         .shields img {
             margin: 5px;
         }
         h2 {
-            font-size: 1.8em;
+            font-size: 1.5em;
             color: #1e3a8a;
             font-weight: 600;
-            margin-top: 40px;
+            margin-top: 30px;
         }
-        .project-card {
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 30px;
         }
         .card {
             background-color: white;
-            border: 2px solid #1e3a8a;
             border-radius: 8px;
             padding: 20px;
-            height: 250px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        .card:hover {
-            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
         }
         .card h3 {
             font-size: 1.3em;
             color: #1e3a8a;
             font-weight: 600;
-            margin: 0;
         }
         .card p {
             font-size: 1em;
             color: #666;
-            flex-grow: 1;
         }
         .card ul {
             list-style-type: none;
             padding: 0;
-        }
-        .card ul li {
-            margin-bottom: 10px;
         }
         .card ul li a {
             text-decoration: none;
@@ -103,59 +85,51 @@
     </style>
 </head>
 <body>
-
-    <div class="title-container">
+    <div class="container">
         <div class="name">Aishwarya Venkat</div>
         <h1>Welcome to my GitHub profile!</h1>
-        <hr>
-    </div>
+        <p>I am a graduate student at Yale with a keen interest in data analysis, visualization, policymaking, and research. My research interests include gender, development, and environmental economics.</p>
 
-    <p>I am a graduate student at Yale with a keen interest in data analysis, visualization, policymaking, and research. My research interests include gender, development and environmental economics. </p>
-
-    <h2>Tools I use</h2>
-
-    <div class="shields">
-        <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
-        <img src="https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white" alt="R"/>
-        <img src="https://img.shields.io/badge/Stata-1F91CF?style=for-the-badge&logo=stata&logoColor=white" alt="Stata"/>
-        <img src="https://img.shields.io/badge/EViews-003366?style=for-the-badge&logo=eviews&logoColor=white" alt="EViews"/>
-        <img src="https://img.shields.io/badge/SPSS-FF9900?style=for-the-badge&logo=spss&logoColor=white" alt="SPSS"/>
-    </div>
-
-    <h2>Featured Projects</h2>
-
-    <div class="project-card">
-        <div class="card">
-            <h3>IHDS Visualization</h3>
-            <p>Short excerpt of Stata code to perform basic descriptive explorations of the India Human Development Survey (IHDS) dataset. Here, I look at how the female labor supply in 
-India varies by family size and employment type (by industry and work transition). </p>
-            <ul>
-                <li><a href="https://drive.google.com/file/d/1QtsvKZAQvxu4NNutalkLsMOejFJvuwti/view?usp=sharing"> Quick summary of key plots and insights </a></li>
-                <li><a href="https://drive.google.com/file/d/1RdMPBePYuM9T75gG4_9ij24DZmPXKlpI/view?usp=drive_link"> do file for family size</a></li>
-                <li><a href="https://drive.google.com/file/d/18GcQICx17p5_7vCiId9p7f97uVMp5j3v/view?usp=drive_link"> do file for employment insights </a></li>
-                <li><a href="https://github.com/aish-droid/RA-work/blob/main/RA%20descriptive%20visualization.ipynb">Additional Python IHDS plots</a></li>
-            </ul>
+        <h2>Tools I use</h2>
+        <div class="shields">
+            <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
+            <img src="https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white" alt="R"/>
+            <img src="https://img.shields.io/badge/Stata-1F91CF?style=for-the-badge&logo=stata&logoColor=white" alt="Stata"/>
+            <img src="https://img.shields.io/badge/EViews-003366?style=for-the-badge&logo=eviews&logoColor=white" alt="EViews"/>
+            <img src="https://img.shields.io/badge/SPSS-FF9900?style=for-the-badge&logo=spss&logoColor=white" alt="SPSS"/>
         </div>
-        <div class="card">
-            <h3><a href="https://colab.research.google.com/drive/1sTBPKAve6uD1X-dTYxLJ-ztJK_BHa9od?usp=sharing">Fed 2008 Transcript Analysis</a></h3>
-            <p>Exploratory analysis of Federal Reserve transcripts from 2008, using NLP techniques to uncover insights from the financial crisis discussions.</p>
-        <ul>
-                <li><a href="https://drive.google.com/file/d/1Dd-kQih-zYxQQHr_VVBJHJoPv06Oq9bn/view?usp=sharing">Quick summary of key plots and insights</a></li>
-                <li><a href="https://colab.research.google.com/drive/1sTBPKAve6uD1X-dTYxLJ-ztJK_BHa9od?usp=sharing">Code and thought flow</a></li>
-            </ul>
+
+        <h2>Featured Projects</h2>
+        <div class="project-grid">
+            <div class="card">
+                <h3>IHDS Visualization</h3>
+                <p>Exploration of female labor supply in India using IHDS data.</p>
+                <ul>
+                    <li><a href="https://drive.google.com/file/d/1QtsvKZAQvxu4NNutalkLsMOejFJvuwti/view">Summary</a></li>
+                    <li><a href="https://drive.google.com/file/d/1RdMPBePYuM9T75gG4_9ij24DZmPXKlpI/view">Do file - Family Size</a></li>
+                    <li><a href="https://drive.google.com/file/d/18GcQICx17p5_7vCiId9p7f97uVMp5j3v/view">Do file - Employment</a></li>
+                    <li><a href="https://github.com/aish-droid/RA-work/blob/main/RA%20descriptive%20visualization.ipynb">Python IHDS Plots</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3><a href="https://colab.research.google.com/drive/1sTBPKAve6uD1X-dTYxLJ-ztJK_BHa9od">Fed 2008 Transcript Analysis</a></h3>
+                <p>NLP-based analysis of Federal Reserve transcripts from the 2008 financial crisis.</p>
+                <ul>
+                    <li><a href="https://drive.google.com/file/d/1Dd-kQih-zYxQQHr_VVBJHJoPv06Oq9bn/view">Summary</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1sTBPKAve6uD1X-dTYxLJ-ztJK_BHa9od">Code & Thought Flow</a></li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3><a href="https://github.com/aish-droid/aish-droid/tree/topic-modelling">Topic Modelling with Reddit</a></h3>
+                <p>LDA-based analysis of study abroad preferences from Reddit discussions.</p>
+                <ul>
+                    <li><a href="https://drive.google.com/file/d/1Pr6pK-hqPgN0ZxcVPB4zTse56FryKPtO/view">Summary</a></li>
+                    <li><a href="https://colab.research.google.com/drive/1dxGjomuwo9Ihg0ysc_xyL50v1VbYCiCh">Code & Thought Flow</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="card">
-            <h3><a href="https://github.com/aish-droid/aish-droid/tree/topic-modelling">Topic modelling with reddit on study abroad preferences</a></h3>
-            <p>Modelling subreddit data using LDA and sentiment analysis to explore how different countries are viewed as education destinations.</p>
-            <ul>
-                <li><a href="https://drive.google.com/file/d/1Pr6pK-hqPgN0ZxcVPB4zTse56FryKPtO/view?usp=sharing">Quick summary of key plots and insights</a></li>
-                <li><a href="https://colab.research.google.com/drive/1dxGjomuwo9Ihg0ysc_xyL50v1VbYCiCh?usp=sharing">Code and thought flow</a></li>
-            </ul>
-        </div>
+        <p>Thank you for visiting my profile! Feel free to explore my repositories and connect with me if you’d like to collaborate. 😄</p>
+        <p>Connect with me on <a href="https://www.linkedin.com/in/aishwarya-venkat-/">LinkedIn</a></p>
     </div>
-
-    <p style="text-align: center; margin-top: 40px;">Thank you for visiting my profile! Feel free to explore my repositories and connect with me if you’d like to collaborate. 😄</p>
-    <p style="text-align: center;">Connect with me on <a href="https://www.linkedin.com/in/aishwarya-venkat-/">Linkedin</a></p>
-
 </body>
 </html>
