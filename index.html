@@ -45,12 +45,24 @@
         }
         .project-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ensures cards are at least 300px wide */
             gap: 20px;
             justify-content: center;
-            align-items: stretch;
-            margin-top: 30px;
         }
+
+/* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr); /* Switch to 2x2 grid on medium screens */
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .project-grid {
+                grid-template-columns: repeat(1, 1fr); /* Stack vertically on small screens */
+            }
+        }
+
         .card {
             background-color: white;
             border-radius: 8px;
