@@ -3,10 +3,10 @@ title: "code"
 output:
   pdf_document: default
   html_document: default
-date: "2025-03-28"
 ---
+#credits: Code structure drawn from Prof Jonathan Reuning-Scherer's code (Yale University)
 ```{r}
-setwd("C:\\Users\\Aishwarya Venkat\\Documents\\Yale\\Multivariate Statistics\\HW 5 Cluster Analysis")
+setwd("<insert relevant path>")
 
 ```
 
