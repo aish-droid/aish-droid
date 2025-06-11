@@ -1,0 +1,316 @@
+---
+title: "HW-3 Discriminant Analysis code"
+output:
+  html_document: default
+  pdf_document: default
+date: "2025-02-17"
+---
+```{r}
+library(ggplot2)
+library(ggExtra)
+library(heplots)
+library(lubridate)
+library(dplyr)
+library(klaR)
+library(car)
+library(MASS)
+library(biotools)
+```
+
+
+```{r}
+## importing csv data
+library(readxl)
+
+data <- read_excel(r"(C:\Users\Aishwarya Venkat\Documents\Yale\Multivariate Statistics\HW 3 DA\data_final_2.xlsx)")
+
+head(data)
+
+```
+
+```{r}
+## ##chi square quantile plots for female production and non production workers - raw data by gender of owner
+# Reset device and adjust margins
+par(mfrow = c(1, 2), mar = c(2, 2, 2, 2))  # 1 row, 2 columns, small margins
+
+# Split data by female_owner categories
+female_owner_categories <- split(data, data$female_owner)
+
+# Loop through each female_owner category and plot
+for (category_name in names(female_owner_categories)) {
+  category_data <- female_owner_categories[[category_name]]
+  
+  # Ensure there are enough data points
+  if (nrow(category_data) > 1) {
+    cqplot(category_data[, 3:4], 
+           main = paste("Female Owner Category:", category_name), 
+           pch = 19, 
+           conf = 0.95)
+  }
+}
+
+# Reset to default layout
+par(mfrow = c(1, 1))
+
+
+
+```
+
+
+```{r}
+# Scatter plot for % of female production vs non-production workers across regions
+plot(data$perc_fem_prodw, data$perc_fem_nonprodw, 
+     col = as.numeric(as.factor(data$female_owner)),  # Convert owner to numeric for colors
+     pch = 19, 
+     main = "% Female Workers: Production vs Non-Production", 
+     xlab = "% Female Production Workers", 
+     ylab = "% Female Non-Production Workers")
+
+# Add legend
+legend("topright", 
+       col = unique(as.numeric(as.factor(data$female_owner))), 
+       legend = unique(data$female_owner), 
+       pch = 19, 
+       cex = 0.8)  # Adjust text size for readability
+
+```
+
+```{r}
+#calculate Box's M statistic
+boxM(data[,c("perc_fem_prodw","perc_fem_nonprodw")], data$female_owner)
+```
+```{r}
+## make boxplot categorized by female_owner
+boxplot(perc_fem_nonprodw ~ female_owner, data=data, col = c("red", "blue"), horizontal = TRUE, 
+        main = "% Female Non-Production Workers by Female Ownership", 
+        xlab = "Female Ownership", ylab = "% Female Non-Productive Workers", cex.axis = 0.5)
+
+boxplot(perc_fem_prodw ~ female_owner, data=data, col = c("green", "purple"), horizontal = TRUE, 
+        main = "% Female Production Workers by Female Ownership", 
+        ylab = "Female Ownership", xlab = "% Female Productive Workers",cex.axis=0.5)
+
+```
+
+```{r}
+#visually compare sample covariance matrices
+print("Covariance Matrix for female owners")
+
+fem_cov <- cov(data[data$female_owner == "Yes", 3:4])
+print(fem_cov)
+
+print("Covariance Matrix for male owners")
+
+male_cov <- cov(data[data$female_owner == "No", 3:4])
+print(male_cov)
+
+```
+```{r}
+print("Ratio of Largest to Smallest Covariance Elements")
+cov_rat <- fem_cov/male_cov
+cov_rat[abs(cov_rat) < 1] <- 1/(cov_rat[abs(cov_rat) < 1])
+round(cov_rat, 1)
+```
+```{r}
+boxM(data[,c("perc_fem_prodw", "perc_fem_nonprodw")], data$female_owner)
+```
+```{r}
+scatterplot(perc_fem_prodw ~ perc_fem_nonprodw, data = data, groups = data$female_owner, smooth = F, regLine = F, ellipse = T)
+
+plot1 <- ggplot(data, aes(perc_fem_prodw, perc_fem_nonprodw, colour = female_owner)) + geom_point()
+ggMarginal(plot1, groupColour = TRUE, groupFill = TRUE)
+```
+```{r}
+data.disc <- lda(data[,3:4], grouping = data$female_owner)
+names(data.disc)
+```
+
+```{r}
+(data.disc <- lda(data$female_owner ~ data$perc_fem_prodw + data$perc_fem_nonprodw, prior = c(.5,.5)))
+```
+```{r}
+#get univariate and multivariate comparisons
+data.manova <- manova(as.matrix(data[,3:4]) ~ data$female_owner)
+summary.manova(data.manova, test="Wilks")
+```
+```{r}
+summary.aov(data.manova)
+```
+```{r}
+print("Raw (Unstandardized) Coefficients")
+round(data.disc$scaling,2)
+```
+```{r}
+print("Normalized Coefficients")
+round(data.disc$scaling/sqrt(sum(data.disc$scaling^2)),2)
+```
+
+```{r}
+print("Standardized Coefficients")
+round(lda(data$female_owner ~ scale(data$perc_fem_prodw) + scale(data$perc_fem_nonprodw), prior = c(.5,.5))$scaling,2)
+```
+```{r}
+ctraw <- table(data$female_owner, predict(data.disc)$class)
+ctraw
+```
+```{r}
+round(sum(diag(prop.table(ctraw))), 2)
+```
+
+```{r}
+#cross-validated results
+data.discCV <- lda(data$female_owner ~ data$perc_fem_prodw + data$perc_fem_nonprodw, CV = TRUE)
+ctCV <- table(data$female_owner, data.discCV$class)
+ctCV
+```
+```{r}
+# total percent correct
+round(sum(diag(prop.table(ctCV))), 2)
+```
+
+```{r}
+#get the scores
+scores <- as.matrix(data[,3:4])%*%matrix(c(data.disc$scaling), ncol = 1)
+
+boxplot(scores ~ data$female_owner, lwd = 2, col = c("red","blue"), horizontal = T, main="Discriminant Scores by Gender of Owner")
+```
+```{r}
+#See partitioned space
+names(data)
+```
+
+```{r}
+data$female_owner <- as.factor(data$female_owner)
+
+```
+
+```{r}
+partimat(female_owner ~ perc_fem_prodw + perc_fem_nonprodw, data = data, method = "lda")
+```
+
+```{r}
+sum(is.na(data$female_owner))
+
+```
+
+```{r}
+
+# kernel smoothing plots
+
+library(MASS)
+library(plotly)
+
+# Perform kernel density estimation for female production and non-production workers for both categories
+freqz_yes <- with(data.frame(x = data[data$female_owner == "Yes",]$perc_fem_prodw, 
+                             y = data[data$female_owner == "Yes",]$perc_fem_nonprodw),
+                  kde2d(x, y, n = 50))
+
+freqz_no <- with(data.frame(x = data[data$female_owner == "No",]$perc_fem_prodw, 
+                            y = data[data$female_owner == "No",]$perc_fem_nonprodw),
+                 kde2d(x, y, n = 50))
+
+# Combine both density surfaces in the same plot with single colors
+plot <- plot_ly() %>%
+  add_surface(x = freqz_yes$x, y = freqz_yes$y, z = freqz_yes$z, 
+              surfacecolor = rep(1, length(freqz_yes$z)), colorscale = list(c(0, 1), c('blue', 'blue')),
+              opacity = 0.6, showscale = FALSE, name = "Female Owner: Yes") %>%
+  add_surface(x = freqz_no$x, y = freqz_no$y, z = freqz_no$z, 
+              surfacecolor = rep(1, length(freqz_no$z)), colorscale = list(c(0, 1), c('red', 'red')),
+              opacity = 0.6, showscale = FALSE, name = "Female Owner: No") %>%
+  
+  # Adding a dummy scatter trace to act as a legend
+  add_trace(type = "scatter", mode = "markers", x = c(NA), y = c(NA), 
+            marker = list(color = 'blue', size = 10), name = "Female Owner: Yes") %>%
+  add_trace(type = "scatter", mode = "markers", x = c(NA), y = c(NA), 
+            marker = list(color = 'red', size = 10), name = "Female Owner: No") %>%
+  
+  layout(title = "3D Kernel Density Estimation: Female Production vs Non-Production Workers",
+         scene = list(xaxis = list(title = "% Female Production Workers"),
+                      yaxis = list(title = "% Female Non-Production Workers"),
+                      zaxis = list(title = "Density")),
+         legend = list(title = list(text = "Female Ownership")))
+
+# Show the combined plot
+plot
+
+
+```
+
+```{r}
+# separate kde plots
+
+# Perform kernel density estimation for female production and non-production workers for "Yes" category
+freqz_yes <- with(data.frame(x = data[data$female_owner == "Yes",]$perc_fem_prodw, 
+                             y = data[data$female_owner == "Yes",]$perc_fem_nonprodw),
+                  kde2d(x, y, n = 50))
+
+# Perform kernel density estimation for female production and non-production workers for "No" category
+freqz_no <- with(data.frame(x = data[data$female_owner == "No",]$perc_fem_prodw, 
+                            y = data[data$female_owner == "No",]$perc_fem_nonprodw),
+                 kde2d(x, y, n = 50))
+
+# Create plot for "Yes" category (Female Owner: Yes)
+plot_yes <- plot_ly() %>%
+  add_surface(x = freqz_yes$x, y = freqz_yes$y, z = freqz_yes$z, 
+              surfacecolor = rep(1, length(freqz_yes$z)), colorscale = list(c(0, 1), c('blue', 'blue')),
+              opacity = 0.6, showscale = FALSE, name = "Female Owner: Yes") %>%
+  layout(title = "3D Kernel Density Estimation: Female Production vs Non-Production (Yes)",
+         scene = list(xaxis = list(title = "% Female Production Workers"),
+                      yaxis = list(title = "% Female Non-Production Workers"),
+                      zaxis = list(title = "Density")))
+
+# Create plot for "No" category (Female Owner: No)
+plot_no <- plot_ly() %>%
+  add_surface(x = freqz_no$x, y = freqz_no$y, z = freqz_no$z, 
+              surfacecolor = rep(1, length(freqz_no$z)), colorscale = list(c(0, 1), c('red', 'red')),
+              opacity = 0.6, showscale = FALSE, name = "Female Owner: No") %>%
+  layout(title = "3D Kernel Density Estimation: Female Production vs Non-Production (No)",
+         scene = list(xaxis = list(title = "% Female Production Workers"),
+                      yaxis = list(title = "% Female Non-Production Workers"),
+                      zaxis = list(title = "Density")))
+
+# Display the plots
+plot_yes
+plot_no
+
+```
+```{r}
+
+library(plotly)
+
+# Convert female_owner to a factor with meaningful labels
+data$female_owner <- factor(data$female_owner, labels = c("Male-Owned", "Female-Owned"))
+
+# Define variables
+x <- data$perc_fem_prodw
+y <- data$perc_fem_nonprodw
+color_var <- data$female_owner  # Use labeled factor for coloring
+
+# Define custom color scales
+contour_colors <- list(
+  list(0, "green"),   # Male-Owned (0)
+  list(1, "blue")   # Female-Owned (1)
+)
+
+# Create subplot with colored distributions
+s <- subplot(
+  plot_ly(x = x, type = "histogram", color = color_var, showlegend = TRUE) %>% 
+    layout(bargap = 0.1),
+  plotly_empty(),
+  plot_ly(x = x, y = y, type = "histogram2dcontour", 
+          z = as.numeric(color_var) - 1,  # Convert factor to numeric (0 or 1)
+          colorscale = contour_colors, 
+          showscale = FALSE,
+          nbinsx = 7,  # Increase for finer resolution, decrease for smoother contours
+          nbinsy = 7), # Adjust similarly
+  plot_ly(y = y, type = "histogram", color = color_var, showlegend = FALSE) %>% 
+    layout(bargap = 0.1),
+  nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2),
+  shareX = TRUE, shareY = TRUE, titleX = FALSE, titleY = FALSE
+) 
+
+layout(s)
+
+
+
+```
+
