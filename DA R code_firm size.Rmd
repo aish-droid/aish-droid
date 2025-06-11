@@ -1,9 +1,9 @@
 ---
-title: "HW-3 Discriminant Analysis code"
+title: "Discriminant Analysis code - firm size"
 output: html_document
-date: "2025-02-17"
 ---
 ```{r}
+#credits: Code structure drawn from Prof Jonathan Reuning-Scherer's code (Yale University)
 library(ggplot2)
 library(ggExtra)
 library(heplots)
@@ -20,7 +20,7 @@ library(biotools)
 ## importing csv data
 library(readxl)
 
-data <- read_excel(r"(C:\Users\Aishwarya Venkat\Documents\Yale\Multivariate Statistics\HW 3 DA\data_trial2.xls)")
+data <- read_excel(r"<insert relevant path>")
 
 head(data)
 
